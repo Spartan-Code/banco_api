@@ -12,6 +12,8 @@ import com.fpmislata.banco.core.BusinessMessage;
 import com.fpmislata.presentacion.json.JsonTransformer;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class EntidadBancariaController {
     JsonTransformer jsonTransformer;
 
     @RequestMapping(value = "/entidadbancaria", method = RequestMethod.GET, produces = "application/json")
-    public void findall(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    public void findall(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
 
             String jsonUsuario;
@@ -48,15 +50,30 @@ public class EntidadBancariaController {
             httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonUsuario);
 
+        } catch (BusinessException ex) {
+            List<BusinessMessage> businessMessages = ex.getBusinessMessages();
+            String jsonSalida = jsonTransformer.toJson(businessMessages);
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            ex.printStackTrace(httpServletResponse.getWriter());
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
 
     }
 
     @RequestMapping(value = "/entidadbancaria/{idEntidadBancaria}", method = RequestMethod.GET, produces = "application/json")
-    public void get(@PathVariable("idEntidadBancaria") int idEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    public void get(@PathVariable("idEntidadBancaria") int idEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             EntidadBancaria entidadBancaria = entidadBancariaService.get(idEntidadBancaria);
 
@@ -69,14 +86,29 @@ public class EntidadBancariaController {
                 httpServletResponse.getWriter().println(jsonUsuario);
             }
 
+        } catch (BusinessException ex) {
+            List<BusinessMessage> businessMessages = ex.getBusinessMessages();
+            String jsonSalida = jsonTransformer.toJson(businessMessages);
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            ex.printStackTrace(httpServletResponse.getWriter());
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
     @RequestMapping(value = "/entidadbancaria/defaultValue", method = RequestMethod.GET, produces = "application/json")
-    public void defaultValue(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    public void defaultValue(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             EntidadBancaria entidadBancaria = entidadBancariaService.defaultValue();
 
@@ -91,12 +123,16 @@ public class EntidadBancariaController {
 
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            ex.printStackTrace(httpServletResponse.getWriter());
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
     @RequestMapping(value = "/entidadbancaria/{idEntidadBancaria}", method = RequestMethod.DELETE, produces = "application/json")
-    public void delete(@PathVariable("idEntidadBancaria") int idEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    public void delete(@PathVariable("idEntidadBancaria") int idEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             boolean response = entidadBancariaService.delete(idEntidadBancaria);
 
@@ -106,14 +142,29 @@ public class EntidadBancariaController {
                 httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
 
+        } catch (BusinessException ex) {
+            List<BusinessMessage> businessMessages = ex.getBusinessMessages();
+            String jsonSalida = jsonTransformer.toJson(businessMessages);
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            ex.printStackTrace(httpServletResponse.getWriter());
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
     @RequestMapping(value = "/entidadbancaria", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             EntidadBancaria entidadBancaria = jsonTransformer.fromJSON(jsonEntrada, EntidadBancaria.class);
             String jsonSalida = jsonTransformer.toJson(entidadBancariaService.insert(entidadBancaria));
@@ -125,16 +176,24 @@ public class EntidadBancariaController {
             String jsonSalida = jsonTransformer.toJson(businessMessages);
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
-            httpServletResponse.getWriter().println(jsonSalida);
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
 
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            ex.printStackTrace(httpServletResponse.getWriter());
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
     @RequestMapping(value = "/entidadbancaria", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public void update(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    public void update(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             EntidadBancaria entidadBancaria = jsonTransformer.fromJSON(jsonEntrada, EntidadBancaria.class);
             String jsonSalida = jsonTransformer.toJson(entidadBancariaService.update(entidadBancaria));
@@ -146,11 +205,19 @@ public class EntidadBancariaController {
             String jsonSalida = jsonTransformer.toJson(businessMessages);
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
-            httpServletResponse.getWriter().println(jsonSalida);
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
 
         } catch (Exception ex) {
             httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            ex.printStackTrace(httpServletResponse.getWriter());
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
