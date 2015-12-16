@@ -5,6 +5,7 @@
  */
 package com.fpmislata.presentacion.database;
 
+import com.fpmislata.banco.persistence.dao.impl.hibernate.HibernateUtil;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,14 @@ public class ServletContextListenerImpl implements ServletContextListener {
         AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
         autowireCapableBeanFactory.autowireBean(this);
         migrationDB.toMigration();
+        
+        HibernateUtil.buildSessionFactory();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        
+        HibernateUtil.closeSessionFactory();
 
     }
 
