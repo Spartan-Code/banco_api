@@ -29,6 +29,10 @@
         <listener-class>com.fpmislata.presentacion.database.ServletContextListenerImpl</listener-class>
     </listener>
     
+    <listener>
+        <listener-class>com.fpmislata.presentacion.hibernate.ServletContextListenerImplHibernate</listener-class>
+    </listener>
+    
     <filter>
         <filter-name>FilterImplSecurity</filter-name>
         <filter-class>com.fpmislata.presentacion.security.FilterImplSecurity</filter-class>
