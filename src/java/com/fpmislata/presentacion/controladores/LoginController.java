@@ -7,6 +7,8 @@ package com.fpmislata.presentacion.controladores;
 
 
 import com.fpmislata.banco.business.domain.Usuario;
+import com.fpmislata.banco.business.service.UsuarioService;
+import com.fpmislata.banco.security.PasswordManager;
 import com.fpmislata.presentacion.json.JsonTransformer;
 import com.fpmislata.presentacion.security.WebSession;
 import java.io.IOException;
@@ -28,6 +30,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LoginController {
     @Autowired
     JsonTransformer jsonTransformer;
+    
+     @Autowired
+     PasswordManager passwordManager;
+     
+     @Autowired
+    UsuarioService usuarioService;
+    
      @RequestMapping(value = "/login", method = RequestMethod.POST,consumes= "application/json", produces = "application/json")
     public void login(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
@@ -35,10 +44,14 @@ public class LoginController {
             if (usuario == null){
                  httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }else{
+            if(passwordManager.check(usuario.getPasswordEncrypt(), usuarioService.findByUser(usuario.getNombre()).getPasswordEncrypt() )){
             WebSession webSession = new WebSession(usuario, new Date());
             HttpSession httpSession= httpServletRequest.getSession();
             httpSession.setAttribute("webSession", webSession);
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            }else{
+                httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
             }
         } catch (Exception ex) {
             ex.printStackTrace(httpServletResponse.getWriter());

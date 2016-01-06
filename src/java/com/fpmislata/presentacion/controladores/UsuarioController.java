@@ -43,7 +43,7 @@ public class UsuarioController {
 
             String jsonUsuario;
             if (httpServletRequest.getParameter("nombre") != null) {
-                jsonUsuario = jsonTransformer.toJson(usuarioService.findByNombre(httpServletRequest.getParameter("nombre")));
+                jsonUsuario = jsonTransformer.toJson(usuarioService.findByUser(httpServletRequest.getParameter("nombre")));
             } else {
                 jsonUsuario = jsonTransformer.toJson(usuarioService.findAll());
             }
