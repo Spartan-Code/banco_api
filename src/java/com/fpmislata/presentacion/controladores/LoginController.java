@@ -48,6 +48,8 @@ public class LoginController {
             WebSession webSession = new WebSession(usuario, new Date());
             HttpSession httpSession= httpServletRequest.getSession();
             httpSession.setAttribute("webSession", webSession);
+            
+            httpServletResponse.getWriter().println(jsonTransformer.toJson(usuarioService.findByNickName(usuario.getNickName())));
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             }else{
                 httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
