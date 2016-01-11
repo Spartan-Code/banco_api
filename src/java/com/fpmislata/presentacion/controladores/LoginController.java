@@ -44,7 +44,7 @@ public class LoginController {
             if (usuario == null){
                  httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }else{
-            if(passwordManager.check(usuario.getPasswordEncrypt(), usuarioService.findByUser(usuario.getNombre()).getPasswordEncrypt() )){
+            if(passwordManager.check(usuario.getPasswordEncrypt(), usuarioService.findByNickName(usuario.getNickName()).getPasswordEncrypt() )){
             WebSession webSession = new WebSession(usuario, new Date());
             HttpSession httpSession= httpServletRequest.getSession();
             httpSession.setAttribute("webSession", webSession);
