@@ -50,11 +50,12 @@ public class LoginController {
                    throw new BusinessException("Los campos NickName o Password no pueden estar vacios","Usuario");
             }else{
             if(passwordManager.check(usuario.getPasswordEncrypt(), usuarioService.findByNickName(usuario.getNickName()).getPasswordEncrypt() )){
+                usuario=usuarioService.findByNickName(usuario.getNickName());
             WebSession webSession = new WebSession(usuario, new Date());
             HttpSession httpSession= httpServletRequest.getSession();
             httpSession.setAttribute("webSession", webSession);
             
-            httpServletResponse.getWriter().println(jsonTransformer.toJson(usuarioService.findByNickName(usuario.getNickName())));
+            httpServletResponse.getWriter().println(jsonTransformer.toJson(usuario));
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             }else{
                 throw new BusinessException("El password introducido es incorrecto","Usuario");
