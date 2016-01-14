@@ -34,7 +34,15 @@
         <listener-class>com.fpmislata.presentacion.database.ServletContextListenerImpl</listener-class>
     </listener>
     
-
+    <filter>
+        <filter-name>FilterImplHibernate</filter-name>
+        <filter-class>com.fpmislata.presentacion.hibernate.FilterImplHibernate</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>FilterImplHibernate</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
     
     <filter>
         <filter-name>FilterImplSecurity</filter-name>

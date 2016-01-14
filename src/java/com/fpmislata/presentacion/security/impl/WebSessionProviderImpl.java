@@ -24,6 +24,7 @@ public class WebSessionProviderImpl implements WebSessionProvider {
         HttpSession httpSession = httpServletRequest.getSession();
         webSession =(WebSession)httpSession.getAttribute("webSession");      
         return webSession;
+        
     }
     
 }
