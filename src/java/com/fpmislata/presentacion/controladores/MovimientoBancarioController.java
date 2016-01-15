@@ -5,8 +5,10 @@
  */
 package com.fpmislata.presentacion.controladores;
 
+import com.fpmislata.banco.business.domain.CuentaBancaria;
+import com.fpmislata.banco.business.domain.MovimientoBancario;
 import com.fpmislata.banco.business.domain.SucursalBancaria;
-import com.fpmislata.banco.business.service.SucursalBancariaService;
+import com.fpmislata.banco.business.service.MovimientoBancarioService;
 import com.fpmislata.banco.core.BusinessException;
 import com.fpmislata.banco.core.BusinessMessage;
 import com.fpmislata.presentacion.json.JsonTransformer;
@@ -25,25 +27,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
- * @author Equipo
+ * @author German
  */
 @Controller
-public class SucursalBancariaController {
+public class MovimientoBancarioController {
 
     @Autowired
-    SucursalBancariaService sucursalBancariaService;
+    MovimientoBancarioService movimientoBancarioService;
     @Autowired
     JsonTransformer jsonTransformer;
 
-    @RequestMapping(value = "/sucursalbancaria", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/movimientobancario", method = RequestMethod.GET, produces = "application/json")
     public void findall(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
 
             String jsonUsuario;
             if (httpServletRequest.getParameter("nombre") != null) {
-                jsonUsuario = jsonTransformer.toJson(sucursalBancariaService.findByNombre(httpServletRequest.getParameter("nombre")));
+                jsonUsuario = jsonTransformer.toJson(movimientoBancarioService.findByNombre(httpServletRequest.getParameter("nombre")));
             } else {
-                jsonUsuario = jsonTransformer.toJson(sucursalBancariaService.findAll());
+                jsonUsuario = jsonTransformer.toJson(movimientoBancarioService.findAll());
             }
 
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
@@ -71,16 +73,17 @@ public class SucursalBancariaController {
         }
 
     }
-
-    @RequestMapping(value = "/sucursalbancaria/{idSucursalBancaria}", method = RequestMethod.GET, produces = "application/json")
-    public void get(@PathVariable("idSucursalBancaria") int idSucursalBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    
+    
+    @RequestMapping(value = "/movimientobancario/{idMovimientoBancario}", method = RequestMethod.GET, produces = "application/json")
+    public void get(@PathVariable("idMovimientoBancario") int idMovimientoBancario, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
-            SucursalBancaria sucursalBancaria = sucursalBancariaService.get(idSucursalBancaria);
+            MovimientoBancario movimientoBancaria = movimientoBancarioService.get(idMovimientoBancario);
 
-            if (sucursalBancaria == null) {
+            if (movimientoBancaria == null) {
                 httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             } else {
-                String jsonUsuario = jsonTransformer.toJson(sucursalBancaria);
+                String jsonUsuario = jsonTransformer.toJson(movimientoBancaria);
                 httpServletResponse.setStatus(HttpServletResponse.SC_OK);
                 httpServletResponse.setContentType("application/json; charset=UTF-8");
                 httpServletResponse.getWriter().println(jsonUsuario);
@@ -106,11 +109,12 @@ public class SucursalBancariaController {
             }
         }
     }
-
-    @RequestMapping(value = "/sucursalbancaria/{idSucursalBancaria}", method = RequestMethod.DELETE, produces = "application/json")
-    public void delete(@PathVariable("idSucursalBancaria") int idSucursalBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    
+    
+     @RequestMapping(value = "/movimientobancario/{idMovimientoBancario}", method = RequestMethod.DELETE, produces = "application/json")
+    public void delete(@PathVariable("idMovimientoBancario") int idMovimientoBancario, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
-            boolean response = sucursalBancariaService.delete(idSucursalBancaria);
+            boolean response = movimientoBancarioService.delete(idMovimientoBancario);
 
             if (response) {
                 httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -138,12 +142,12 @@ public class SucursalBancariaController {
             }
         }
     }
-
-    @RequestMapping(value = "/sucursalbancaria", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    
+    @RequestMapping(value = "/movimientobancario", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
-            SucursalBancaria sucursalBancaria = jsonTransformer.fromJSON(jsonEntrada, SucursalBancaria.class);
-            String jsonSalida = jsonTransformer.toJson(sucursalBancariaService.insert(sucursalBancaria));
+            MovimientoBancario movimientoBancario = jsonTransformer.fromJSON(jsonEntrada, MovimientoBancario.class);
+            String jsonSalida = jsonTransformer.toJson(movimientoBancarioService.insert(movimientoBancario));
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
@@ -167,12 +171,12 @@ public class SucursalBancariaController {
             }
         }
     }
-
-    @RequestMapping(value = "/sucursalBancaria", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    
+    @RequestMapping(value = "/movimientobancario", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public void update(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
-            SucursalBancaria sucursalBancaria = jsonTransformer.fromJSON(jsonEntrada, SucursalBancaria.class);
-            String jsonSalida = jsonTransformer.toJson(sucursalBancariaService.update(sucursalBancaria));
+            MovimientoBancario movimientoBancario = jsonTransformer.fromJSON(jsonEntrada, MovimientoBancario.class);
+            String jsonSalida = jsonTransformer.toJson(movimientoBancarioService.update(movimientoBancario));
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
             httpServletResponse.getWriter().println(jsonSalida);
@@ -196,5 +200,6 @@ public class SucursalBancariaController {
             }
         }
     }
+
 
 }
