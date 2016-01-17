@@ -40,8 +40,8 @@ public class SucursalBancariaController {
         try {
 
             String jsonUsuario;
-            if (httpServletRequest.getParameter("nombre") != null) {
-                jsonUsuario = jsonTransformer.toJson(sucursalBancariaService.findByNombre(httpServletRequest.getParameter("nombre")));
+            if (httpServletRequest.getParameter("idEntidadBancaria") != null) {
+                jsonUsuario = jsonTransformer.toJson(sucursalBancariaService.findByidEntidadBancaria(Integer.parseInt(httpServletRequest.getParameter("idEntidadBancaria"))));
             } else {
                 jsonUsuario = jsonTransformer.toJson(sucursalBancariaService.findAll());
             }
