@@ -168,7 +168,7 @@ public class SucursalBancariaController {
         }
     }
 
-    @RequestMapping(value = "/sucursalBancaria", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    @RequestMapping(value = "/sucursalbancaria", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public void update(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             SucursalBancaria sucursalBancaria = jsonTransformer.fromJSON(jsonEntrada, SucursalBancaria.class);
