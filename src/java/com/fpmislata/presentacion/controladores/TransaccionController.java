@@ -46,25 +46,25 @@ public class TransaccionController {
     public void doTransaccion(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
             Transaccion transaccion = jsonTransformer.fromJSON(jsonEntrada, Transaccion.class);
-            MovimientoBancario movimientoBancarioCuentaOrigen = new MovimientoBancario();
-            MovimientoBancario movimientoBancarioCuentaDestino = new MovimientoBancario();
+            
             String numeroCuentaOrigen = transaccion.getCuentaOrigen().substring(10);
             String numeroCuentaDestino = transaccion.getCuentaDestino().substring(10);
-
+            
+            MovimientoBancario movimientoBancarioCuentaOrigen = new MovimientoBancario();
             movimientoBancarioCuentaOrigen.setFecha(new Date());
             movimientoBancarioCuentaOrigen.setConcepto(transaccion.getConcepto());
             movimientoBancarioCuentaOrigen.setTipo(Tipo.Debe);
             movimientoBancarioCuentaOrigen.setImporte(transaccion.getImporte());
             movimientoBancarioCuentaOrigen.setCuentaBancaria(cuentaBancariaService.findByNumeroCuenta(numeroCuentaOrigen));
-
+            movimientoBancarioService.insert(movimientoBancarioCuentaOrigen);
+            
+            MovimientoBancario movimientoBancarioCuentaDestino = new MovimientoBancario();
             movimientoBancarioCuentaDestino.setFecha(new Date());
             movimientoBancarioCuentaDestino.setConcepto(transaccion.getConcepto());
             movimientoBancarioCuentaDestino.setTipo(Tipo.Haber);
             movimientoBancarioCuentaDestino.setImporte(transaccion.getImporte());
             movimientoBancarioCuentaDestino.setCuentaBancaria(cuentaBancariaService.findByNumeroCuenta(numeroCuentaDestino));
-
-            movimientoBancarioCuentaOrigen = movimientoBancarioService.insert(movimientoBancarioCuentaOrigen);
-            movimientoBancarioCuentaDestino = movimientoBancarioService.insert(movimientoBancarioCuentaDestino);
+            movimientoBancarioService.insert(movimientoBancarioCuentaDestino);
 
             httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
 
