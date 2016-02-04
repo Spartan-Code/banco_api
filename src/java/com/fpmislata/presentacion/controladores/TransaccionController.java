@@ -63,8 +63,8 @@ public class TransaccionController {
             movimientoBancarioCuentaDestino.setImporte(transaccion.getImporte());
             movimientoBancarioCuentaDestino.setCuentaBancaria(cuentaBancariaService.findByNumeroCuenta(numeroCuentaDestino));
 
-            movimientoBancarioService.insert(movimientoBancarioCuentaOrigen);
-            movimientoBancarioService.insert(movimientoBancarioCuentaDestino);
+            movimientoBancarioCuentaOrigen = movimientoBancarioService.insert(movimientoBancarioCuentaOrigen);
+            movimientoBancarioCuentaDestino = movimientoBancarioService.insert(movimientoBancarioCuentaDestino);
 
             httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
 
