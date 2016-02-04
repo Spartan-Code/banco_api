@@ -46,10 +46,10 @@ public class TransaccionController {
     public void doTransaccion(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
             Transaccion transaccion = jsonTransformer.fromJSON(jsonEntrada, Transaccion.class);
-            
+
             String numeroCuentaOrigen = transaccion.getCuentaOrigen().substring(10);
             String numeroCuentaDestino = transaccion.getCuentaDestino().substring(10);
-            
+
             MovimientoBancario movimientoBancarioCuentaOrigen = new MovimientoBancario();
             movimientoBancarioCuentaOrigen.setFecha(new Date());
             movimientoBancarioCuentaOrigen.setConcepto(transaccion.getConcepto());
@@ -57,7 +57,7 @@ public class TransaccionController {
             movimientoBancarioCuentaOrigen.setImporte(transaccion.getImporte());
             movimientoBancarioCuentaOrigen.setCuentaBancaria(cuentaBancariaService.findByNumeroCuenta(numeroCuentaOrigen));
             movimientoBancarioService.insert(movimientoBancarioCuentaOrigen);
-            
+
             MovimientoBancario movimientoBancarioCuentaDestino = new MovimientoBancario();
             movimientoBancarioCuentaDestino.setFecha(new Date());
             movimientoBancarioCuentaDestino.setConcepto(transaccion.getConcepto());
@@ -87,6 +87,5 @@ public class TransaccionController {
                 Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
-
     }
 }
