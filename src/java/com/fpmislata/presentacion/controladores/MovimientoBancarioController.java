@@ -42,8 +42,8 @@ public class MovimientoBancarioController {
         try {
 
             String jsonUsuario;
-            if (httpServletRequest.getParameter("nombre") != null) {
-                jsonUsuario = jsonTransformer.toJson(movimientoBancarioService.findByNombre(httpServletRequest.getParameter("nombre")));
+            if (httpServletRequest.getParameter("idCuentaBancaria") != null) {
+                jsonUsuario = jsonTransformer.toJson(movimientoBancarioService.findByidCuentaBancaria(Integer.parseInt(httpServletRequest.getParameter("idCuentaBancaria"))));
             } else {
                 jsonUsuario = jsonTransformer.toJson(movimientoBancarioService.findAll());
             }
@@ -73,8 +73,7 @@ public class MovimientoBancarioController {
         }
 
     }
-    
-    
+
     @RequestMapping(value = "/movimientobancario/{idMovimientoBancario}", method = RequestMethod.GET, produces = "application/json")
     public void get(@PathVariable("idMovimientoBancario") int idMovimientoBancario, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
@@ -109,9 +108,8 @@ public class MovimientoBancarioController {
             }
         }
     }
-    
-    
-     @RequestMapping(value = "/movimientobancario/{idMovimientoBancario}", method = RequestMethod.DELETE, produces = "application/json")
+
+    @RequestMapping(value = "/movimientobancario/{idMovimientoBancario}", method = RequestMethod.DELETE, produces = "application/json")
     public void delete(@PathVariable("idMovimientoBancario") int idMovimientoBancario, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             boolean response = movimientoBancarioService.delete(idMovimientoBancario);
@@ -142,7 +140,7 @@ public class MovimientoBancarioController {
             }
         }
     }
-    
+
     @RequestMapping(value = "/movimientobancario", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
@@ -171,7 +169,7 @@ public class MovimientoBancarioController {
             }
         }
     }
-    
+
     @RequestMapping(value = "/movimientobancario", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public void update(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
@@ -200,6 +198,5 @@ public class MovimientoBancarioController {
             }
         }
     }
-
 
 }

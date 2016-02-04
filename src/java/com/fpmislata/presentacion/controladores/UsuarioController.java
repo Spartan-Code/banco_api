@@ -5,8 +5,6 @@
  */
 package com.fpmislata.presentacion.controladores;
 
-
-
 import com.fpmislata.banco.business.domain.Usuario;
 import com.fpmislata.banco.business.service.UsuarioService;
 import com.fpmislata.banco.core.BusinessException;
@@ -31,12 +29,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class UsuarioController {
-    
+
     @Autowired
     UsuarioService usuarioService;
     @Autowired
     JsonTransformer jsonTransformer;
-    
+
     @RequestMapping(value = "/usuario", method = RequestMethod.GET, produces = "application/json")
     public void findall(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
@@ -44,6 +42,8 @@ public class UsuarioController {
             String jsonUsuario;
             if (httpServletRequest.getParameter("nombre") != null) {
                 jsonUsuario = jsonTransformer.toJson(usuarioService.findByNickName(httpServletRequest.getParameter("nombre")));
+            } else if (httpServletRequest.getParameter("nif") != null) {
+                jsonUsuario = jsonTransformer.toJson(usuarioService.finByNif());
             } else {
                 jsonUsuario = jsonTransformer.toJson(usuarioService.findAll());
             }
@@ -73,8 +73,7 @@ public class UsuarioController {
         }
 
     }
-    
-    
+
     @RequestMapping(value = "/usuario/{idUsuario}", method = RequestMethod.GET, produces = "application/json")
     public void get(@PathVariable("idUsuario") int idUsuario, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
@@ -109,7 +108,7 @@ public class UsuarioController {
             }
         }
     }
-    
+
     @RequestMapping(value = "/usuario/{idUsuario}", method = RequestMethod.DELETE, produces = "application/json")
     public void delete(@PathVariable("idUsuario") int idUsuario, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
@@ -141,7 +140,7 @@ public class UsuarioController {
             }
         }
     }
-    
+
     @RequestMapping(value = "/usuario", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
@@ -162,7 +161,7 @@ public class UsuarioController {
             }
 
         } catch (Exception ex) {
-            httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);    
+            httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             try {
                 ex.printStackTrace(httpServletResponse.getWriter());
             } catch (IOException ex1) {
@@ -170,8 +169,7 @@ public class UsuarioController {
             }
         }
     }
-    
-    
+
     @RequestMapping(value = "/usuario", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public void update(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
@@ -200,8 +198,5 @@ public class UsuarioController {
             }
         }
     }
-    
-    
-    
-    
+
 }
