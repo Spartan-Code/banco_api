@@ -144,6 +144,7 @@ public class CuentaBancariaController {
     public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             CuentaBancaria cuentaBancaria = jsonTransformer.fromJSON(jsonEntrada, CuentaBancaria.class);
+            cuentaBancaria.setPin("1234");
             String jsonSalida = jsonTransformer.toJson(cuentaBancariaService.insert(cuentaBancaria));
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
             httpServletResponse.setContentType("application/json; charset=UTF-8");
