@@ -77,7 +77,10 @@
     nbproject/build-impl.xml file. 
 
     -->
-    <!--
+    
+    <property name="libs.CopyLibs.classpath" value="ant/lib/org-netbeans-modules-java-j2seproject-copylibstask.jar" />
+    <property name="j2ee.server.home" value="ant" />
+	
     <property name="enableProduccion" value="true"/>
     
     <target name="-pre-dist" depends="-base-datos-produccion">              
@@ -85,8 +88,8 @@
     
     
     <target name="-base-datos-produccion" if="enableProduccion">
-         <delete file=".\build\web\META-INF\context.xml" />
-         <move file=".\build\web\META-INF\contextDBProduccion.xml" tofile=".\build\web\META-INF\context.xml" />
+        <delete file=".\build\web\META-INF\context.xml" />
+        <move file=".\build\web\META-INF\contextDBProduccion.xml" tofile=".\build\web\META-INF\context.xml" />
     </target>
-    -->
+    
 </project>
