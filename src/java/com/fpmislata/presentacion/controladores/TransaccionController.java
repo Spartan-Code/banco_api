@@ -35,7 +35,7 @@ public class TransaccionController {
     @Autowired
     CuentaBancariaService cuentaBancariaService;
 
-    @RequestMapping(value = "/transaccion", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/transaccion", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public void doTransaccion(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
             Transaccion transaccion = jsonTransformer.fromJSON(jsonEntrada, Transaccion.class);
@@ -64,4 +64,36 @@ public class TransaccionController {
             }
         }
     }
+    
+    @RequestMapping(value = "/retirar", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public void retirar(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        try {
+            Transaccion transaccion = jsonTransformer.fromJSON(jsonEntrada, Transaccion.class);
+
+            cuentaBancariaService.doTransaccion(transaccion);
+
+            httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+
+        } catch (BusinessException ex) {
+            List<BusinessMessage> businessMessages = ex.getBusinessMessages();
+            String jsonSalida = jsonTransformer.toJson(businessMessages);
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            try {
+                httpServletResponse.getWriter().println(jsonSalida);
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+
+        } catch (Exception ex) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            try {
+                ex.printStackTrace(httpServletResponse.getWriter());
+            } catch (IOException ex1) {
+                Logger.getLogger(EntidadBancariaController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+    }
+    
+    
 }
