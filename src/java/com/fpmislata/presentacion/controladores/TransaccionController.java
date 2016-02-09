@@ -6,6 +6,7 @@
 package com.fpmislata.presentacion.controladores;
 
 import com.fpmislata.banco.business.domain.Pago;
+import com.fpmislata.banco.business.domain.Tipo;
 import com.fpmislata.banco.business.domain.Transaccion;
 import com.fpmislata.banco.business.service.CuentaBancariaService;
 import com.fpmislata.banco.core.BusinessException;
@@ -71,7 +72,7 @@ public class TransaccionController {
         try {
             Pago pago = jsonTransformer.fromJSON(jsonEntrada, Pago.class);
             if ("2222".equals(pago.getPin()) || "3333".equals(pago.getPin())) {
-                cuentaBancariaService.retirarDinero(pago);
+                cuentaBancariaService.retirarDinero(pago,Tipo.Debe);
             } else {
                 httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             }
