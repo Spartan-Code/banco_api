@@ -7,8 +7,8 @@ package com.fpmislata.presentacion.controladores;
 
 import com.fpmislata.banco.business.domain.Extraccion;
 import com.fpmislata.banco.business.domain.Tipo;
-import com.fpmislata.banco.business.domain.Transaccion;
 import com.fpmislata.banco.business.service.CuentaBancariaService;
+import com.fpmislata.banco.business.service.RetirarService;
 import com.fpmislata.banco.business.service.TransaccionService;
 import com.fpmislata.banco.core.BusinessException;
 import com.fpmislata.banco.core.BusinessMessage;
@@ -27,24 +27,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
- * @author PEDRO DEL BARRIO
+ * @author German
  */
 @Controller
-public class TransaccionController {
+public class RetirarController {
+    
+    @Autowired
+    JsonTransformer jsonTransformer;
 
     @Autowired
-    JsonTransformer jsonTransformer;   
+    RetirarService retirarService;
+    
     
     @Autowired
     TransaccionService transaccionService;
-
-    @RequestMapping(value = "/transaccion", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    
+    @RequestMapping(value = "/retirar", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
-            Transaccion transaccion = jsonTransformer.fromJSON(jsonEntrada, Transaccion.class);
-
-            transaccionService.insert(transaccion);
-
+            Extraccion extraccion = jsonTransformer.fromJSON(jsonEntrada, Extraccion.class);
+            if ("2222".equals(extraccion.getPin()) || "3333".equals(extraccion.getPin())) {
+                retirarService.insert(extraccion);
+            } else {
+                httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            }
             httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
 
         } catch (BusinessException ex) {
@@ -67,6 +73,5 @@ public class TransaccionController {
             }
         }
     }
-
     
 }

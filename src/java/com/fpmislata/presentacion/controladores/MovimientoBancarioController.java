@@ -5,13 +5,12 @@
  */
 package com.fpmislata.presentacion.controladores;
 
-import com.fpmislata.banco.business.domain.CuentaBancaria;
+
 import com.fpmislata.banco.business.domain.MovimientoBancario;
-import com.fpmislata.banco.business.domain.SucursalBancaria;
 import com.fpmislata.banco.business.service.MovimientoBancarioService;
 import com.fpmislata.banco.core.BusinessException;
 import com.fpmislata.banco.core.BusinessMessage;
-import com.fpmislata.presentacion.json.JsonTransformer;
+import com.fpmislata.banco.util.json.JsonTransformer;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
