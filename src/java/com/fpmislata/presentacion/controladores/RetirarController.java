@@ -48,10 +48,11 @@ public class RetirarController {
             Extraccion extraccion = jsonTransformer.fromJSON(jsonEntrada, Extraccion.class);
             if ("2222".equals(extraccion.getPin()) || "3333".equals(extraccion.getPin())) {
                 retirarService.insert(extraccion);
+                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             } else {
                 httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             }
-            httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            
 
         } catch (BusinessException ex) {
             List<BusinessMessage> businessMessages = ex.getBusinessMessages();
