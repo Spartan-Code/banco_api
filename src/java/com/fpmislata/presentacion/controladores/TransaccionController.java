@@ -5,10 +5,7 @@
  */
 package com.fpmislata.presentacion.controladores;
 
-import com.fpmislata.banco.business.domain.Extraccion;
-import com.fpmislata.banco.business.domain.Tipo;
 import com.fpmislata.banco.business.domain.Transaccion;
-import com.fpmislata.banco.business.service.CuentaBancariaService;
 import com.fpmislata.banco.business.service.TransaccionService;
 import com.fpmislata.banco.core.BusinessException;
 import com.fpmislata.banco.core.BusinessMessage;

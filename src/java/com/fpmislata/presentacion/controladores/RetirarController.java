@@ -6,8 +6,6 @@
 package com.fpmislata.presentacion.controladores;
 
 import com.fpmislata.banco.business.domain.Extraccion;
-import com.fpmislata.banco.business.domain.Tipo;
-import com.fpmislata.banco.business.service.CuentaBancariaService;
 import com.fpmislata.banco.business.service.RetirarService;
 import com.fpmislata.banco.business.service.TransaccionService;
 import com.fpmislata.banco.core.BusinessException;
@@ -46,7 +44,7 @@ public class RetirarController {
     public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
             Extraccion extraccion = jsonTransformer.fromJSON(jsonEntrada, Extraccion.class);
-            if ("2222".equals(extraccion.getPin()) || "3333".equals(extraccion.getPin())) {
+            if ("2045".equals(extraccion.getPin()) || "0000".equals(extraccion.getPin())|| "1111".equals(extraccion.getPin())) {
                 retirarService.insert(extraccion);
                 httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             } else {
